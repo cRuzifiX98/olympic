@@ -131,6 +131,22 @@ let genderByDecade = function(aE) {
 
 module.exports.genderByDecade = genderByDecade;
 
+//Process Series data
+module.exports.getGenderParticipationData = function(aE) {
+    let data = Object.entries(genderByDecade(aE));
+    let seriesData = data.reduce( (acc, currVal, index) => {
+        if(index === 0) {
+            acc['Decade'] = [];
+            acc['M'] = [];
+            acc['F'] = [];
+        }
+        acc.Decade.push(currVal[0]);
+        acc.M.push(currVal[1].M);
+        acc.F.push(currVal[1].F);
+        return acc;
+    }, {});
+    return JSON.stringify(seriesData);
+};
 
 //-------------------------------------------------------------------------------------
 // Per year average age of athletes who participated in Boxing Men’s Heavyweight - Line
@@ -162,7 +178,7 @@ module.exports.averageAge = averageAge;
 module.exports.getAverageAgeData = function(aE, event) {
     let perYearAvgAge = averageAge(aE, event);
     let data = perYearAvgAge.reduce( (acc, currVal) => {
-        acc[currVal[0]] = currVal[1];
+        acc[currVal[0]] = parseFloat((currVal[1]).toFixed(2));
         return acc;
     }, {});
     return JSON.stringify(data);

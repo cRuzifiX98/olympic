@@ -21,6 +21,8 @@ const testResult = require('./testFunctions');
 
 //Problem 3
 console.log(result.genderByDecade(aE));
+// console.log(result.getGenderParticipationData(aE));
+
 
 //--------------------------------------------------------------
 
