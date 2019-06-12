@@ -1,0 +1,1 @@
+{"Countries":["USA","Russia","Germany","China","Australia","Canada","UK","France","Italy","Netherlands"],"Gold":[570,254,256,244,126,227,167,110,72,96],"Silver":[458,203,215,169,193,120,140,136,131,138],"Bronze":[361,301,235,166,193,148,120,124,148,81]}

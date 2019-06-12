@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "csvtojson": "^2.0.8"
+    "csvtojson": "^2.0.8",
+    "highcharts": "^7.1.2",
+    "uniq": "^1.0.1"
   }
 }
