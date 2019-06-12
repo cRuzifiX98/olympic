@@ -16,39 +16,39 @@ writeFilePromise = (file, data) => {
 
 // Number of times olympics hosted per city over the years ---- bar chart
 
-let file1 = '../jsonData/perCityStat.json';
-let perCityStatData = olympics.getPerCityStatData(aE);
+let cityStatJson = '../jsonData/perCityStat.json';
+let perCityStatData = olympics.perCityStat(aE);
 
-writeFilePromise(file1, perCityStatData)
+writeFilePromise(cityStatJson, perCityStatData)
 .then( result => console.log(result))
 .catch( error => console.log(error));
 
 
 // Top 10 countries who have won most medals after 2000 - stacked column - split gold/silver/bronze
 
-let file2 = '../jsonData/topTenCountriesMedals.js';
-let topTenCountryMedals = olympics.getCountryMedalsData(aE, nR, 2000, 10);
+let topCountryByMedalJson = '../jsonData/topTenCountriesMedals.js';
+let topTenCountryMedals = olympics.countryMedals(aE, nR, 2000, 10);
 
-writeFilePromise(file2, topTenCountryMedals)
+writeFilePromise(topCountryByMedalJson, topTenCountryMedals)
 .then( result => console.log(result))
 .catch( error => console.log(error));
 
 
 // M/F PARTICIPATION BY DECADE - column chart
 
-let file3 = '../jsonData/genderByDecade.json';
-let genderByDecade = olympics.getGenderParticipationData(aE);
+let genderByDecadeJson = '../jsonData/genderByDecade.json';
+let genderByDecadeResult = olympics.genderByDecade(aE);
 
-writeFilePromise(file3, genderByDecade)
+writeFilePromise(genderByDecadeJson, genderByDecadeResult)
 .then( result => console.log(result))
 .catch( error => console.log(error));
 
 
 // Per year average age of athletes who participated in Boxing Men’s Heavyweight - Line
 
-let file4 = '../jsonData/perYearAvgAge.json';
-let avgAgeData = olympics.getAverageAgeData(aE, "Boxing Men's Heavyweight");
+let avgAgeDataJson = '../jsonData/perYearAvgAge.json';
+let avgAgeData = olympics.averageAge(aE, "Boxing Men's Heavyweight");
 
-writeFilePromise(file4, avgAgeData)
+writeFilePromise(avgAgeDataJson, avgAgeData)
 .then( result => console.log(result))
 .catch( error => console.log(error));

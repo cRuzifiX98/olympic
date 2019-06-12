@@ -16,23 +16,11 @@ let perCityStat = function(aE) {
         }
         return acc;
     }, {});
-    return result;
+    return JSON.stringify(result);
 };
 
 module.exports.perCityStat = perCityStat;
 
-//Series conversion function
-module.exports.getPerCityStatData = function(aE) {
-    let data = Object.entries(perCityStat(aE));
-    let seriesData = data.reduce( (acc, currVal, index) => {
-        let cityArray = [];
-        cityArray.push(currVal[0]);
-        cityArray.push(currVal[1].count);
-        acc.push(cityArray);
-        return acc;
-    }, []);
-    return JSON.stringify(seriesData);
-}
 
 //-------------------------------------------------------------------------------------------------
 // Top 10 countries who have won most medals after 2000 - stacked column - split gold/silver/bronze
@@ -76,29 +64,10 @@ let countryMedals = function( aE, nR, yearAfter, top ) {
     let result = ((Object.entries(allCountry)).sort( (country1, country2) => {
         return (country2[1].count - country1[1].count);
     })).slice(0, top);
-    return result;
+    return JSON.stringify(result);
 };
 
 module.exports.countryMedals = countryMedals;
-
-// Process series data
-module.exports.getCountryMedalsData = function(aE, nR, yearAfter, top) {
-    let data = countryMedals( aE, nR, yearAfter, top );
-    let seriesData = data.reduce( (acc, currVal, index) => {
-        if( index === 0) {
-            acc['Countries'] = [];
-            acc['Gold'] = [];
-            acc['Silver'] = [];
-            acc['Bronze'] = [];
-        }
-        acc['Countries'].push(currVal[0]);
-        acc['Gold'].push(currVal[1].Gold);
-        acc['Silver'].push(currVal[1].Silver);
-        acc['Bronze'].push(currVal[1].Bronze);
-        return acc;
-    }, {});
-    return JSON.stringify(seriesData);
-};
 
 
 //----------------------------------------------------------------------------------
@@ -126,27 +95,11 @@ let genderByDecade = function(aE) {
         }
         return acc;
     }, {});
-    return result;
+    return JSON.stringify(result);
 };
 
 module.exports.genderByDecade = genderByDecade;
 
-//Process Series data
-module.exports.getGenderParticipationData = function(aE) {
-    let data = Object.entries(genderByDecade(aE));
-    let seriesData = data.reduce( (acc, currVal, index) => {
-        if(index === 0) {
-            acc['Decade'] = [];
-            acc['M'] = [];
-            acc['F'] = [];
-        }
-        acc.Decade.push(currVal[0]);
-        acc.M.push(currVal[1].M);
-        acc.F.push(currVal[1].F);
-        return acc;
-    }, {});
-    return JSON.stringify(seriesData);
-};
 
 //-------------------------------------------------------------------------------------
 // Per year average age of athletes who participated in Boxing Men’s Heavyweight - Line
@@ -169,7 +122,8 @@ let averageAge = function(aE, event) {
         currElement[1] = (currElement[1].Age / currElement[1].count);
         return currElement;
     });
-    return result;
+
+    return JSON.stringify(result);
 };
 
 module.exports.averageAge = averageAge;
@@ -190,7 +144,7 @@ module.exports.getAverageAgeData = function(aE, event) {
 // Find out all medal winners from India per season - Table
 
 let medalWinnersIndia = function(aE, country) {
-    let filteredData = aE.filter( (currRow) => ((currRow.NOC === 'IND') && (currRow.Medal !== 'NA')));
+    let filteredData = aE.filter( (currRow) => ((currRow.NOC === country) && (currRow.Medal !== 'NA')));
     let sortedData = filteredData.sort( (athlete1, athlete2) => {
         return athlete1.Year - athlete2.Year;
     });

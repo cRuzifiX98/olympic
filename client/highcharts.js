@@ -5,9 +5,18 @@ fetch("../jsonData/perCityStat.json")
   .then(data => chartForGamesPerCity(data));
 
 function chartForGamesPerCity(result) {
-  let cityData = result;
+  let data = Object.entries(result);
+  let seriesData = data.reduce((acc, currVal, index) => {
+    let cityArray = [];
+    cityArray.push(currVal[0]);
+    cityArray.push(currVal[1].count);
+    acc.push(cityArray);
+    return acc;
+  }, []);
 
-  Highcharts.chart("Problem1", {
+  let cityData = seriesData;
+
+  Highcharts.chart("cityStats", {
     chart: {
       type: "column"
     },
@@ -60,8 +69,26 @@ fetch("../jsonData/topTenCountriesMedals.js")
   .then(response => response.json())
   .then(data => chartForTopTenCountryMedals(data));
 
-function chartForTopTenCountryMedals(data) {
-  Highcharts.chart("Problem2", {
+function chartForTopTenCountryMedals(result) {
+  let seriesData = result.reduce(
+    (acc, currVal, index) => {
+      acc["Countries"].push(currVal[0]);
+      acc["Gold"].push(currVal[1].Gold);
+      acc["Silver"].push(currVal[1].Silver);
+      acc["Bronze"].push(currVal[1].Bronze);
+      return acc;
+    },
+    {
+      Countries: [],
+      Gold: [],
+      Silver: [],
+      Bronze: []
+    }
+  );
+
+  let data = seriesData;
+
+  Highcharts.chart("topTenCountryByMedals", {
     chart: {
       type: "column"
     },
@@ -134,8 +161,25 @@ fetch("../jsonData/genderByDecade.json")
   .then(response => response.json())
   .then(data => genderByDecade(data));
 
-function genderByDecade(data) {
-  Highcharts.chart("Problem3", {
+function genderByDecade(result) {
+  let resultArray = Object.entries(result);
+  let seriesData = resultArray.reduce(
+    (acc, currVal, index) => {
+      acc.Decade.push(currVal[0]);
+      acc.M.push(currVal[1].M);
+      acc.F.push(currVal[1].F);
+      return acc;
+    },
+    {
+      Decade: [],
+      M: [],
+      F: []
+    }
+  );
+
+  let data = seriesData;
+
+  Highcharts.chart("genderByDecade", {
     chart: {
       type: "column"
     },
@@ -177,7 +221,12 @@ fetch("../jsonData/perYearAvgAge.json")
   .then(response => response.json())
   .then(data => chartForAverageAge(data));
 
-function chartForAverageAge(data) {
+function chartForAverageAge(result) {
+  let data = result.reduce((acc, currVal) => {
+    acc[currVal[0]] = parseFloat(currVal[1].toFixed(2));
+    return acc;
+  }, {});
+
   let x = [
     {
       name: "Average Age",
@@ -185,11 +234,9 @@ function chartForAverageAge(data) {
     }
   ];
 
-  console.log(x);
   let y = Object.keys(data);
-  console.log(y);
 
-  Highcharts.chart("Problem4", {
+  Highcharts.chart("averageAge", {
     title: {
       text: "Average Age of ahtletes Olympics(Boxing: Heavy Weight)"
     },
