@@ -74,28 +74,37 @@ module.exports.countryMedals = countryMedals;
 // M/F PARTICIPATION BY DECADE - column chart
 
 let genderByDecade = function(aE) {
-    
-    let tracker = {};
     let result = aE.reduce( (acc, currRow) => {
         let decade = (Math.floor(parseInt(currRow.Year) / 10)) * 10;
-        let key = currRow.ID;
-        if( !(tracker.hasOwnProperty(key)) ) {
-            tracker[key] = [];
-        }
-        if( acc.hasOwnProperty(decade) && !(tracker[key].includes(currRow.Games)) )  {
-            tracker[key].push(currRow.Games);
-            acc[decade][currRow.Sex] += 1;
+        let key = currRow.ID;  
+        if( acc.hasOwnProperty(decade) )  {
+            if( !(acc[decade]['tracker'].hasOwnProperty(key)) ) {
+                acc[decade]['tracker'][key] = [];
+            }
+            if(!(acc[decade]['tracker'][key].includes(currRow.Games))) {
+                acc[decade]['tracker'][key].push(currRow.Games);
+                acc[decade][currRow.Sex] += 1;
+            }
         } else if( !(acc.hasOwnProperty(decade)) ) {
             acc[decade] ={};
             acc[decade] = {
                 M: 0,
-                F: 0
+                F: 0,
+                tracker: {}
             };
+            acc[decade]['tracker'][key] = [currRow.Games];
             acc[decade][currRow.Sex] += 1;
         }
         return acc;
     }, {});
-    return JSON.stringify(result);
+    
+    let resultArray = Object.entries(result);
+    let reducedResult = resultArray.reduce( (acc, currVal) => {
+        delete currVal[1]['tracker'];
+        acc.push(currVal);
+        return acc;
+    }, []);
+    return JSON.stringify(reducedResult);
 };
 
 module.exports.genderByDecade = genderByDecade;
@@ -127,16 +136,6 @@ let averageAge = function(aE, event) {
 };
 
 module.exports.averageAge = averageAge;
-
-// Series conversion function
-module.exports.getAverageAgeData = function(aE, event) {
-    let perYearAvgAge = averageAge(aE, event);
-    let data = perYearAvgAge.reduce( (acc, currVal) => {
-        acc[currVal[0]] = parseFloat((currVal[1]).toFixed(2));
-        return acc;
-    }, {});
-    return JSON.stringify(data);
-};
 
 
 //----------------------------------------------------------------------------------------

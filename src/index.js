@@ -1,8 +1,17 @@
+const csv = require('csvtojson');
 const fs = require('fs');
-const aE = require("../jsonData/atheleteEvents.json"); // aE = Athlete Events
+
 const nR = require("../jsonData/nocRegions.json");     // nR = NOC Regions
 const olympics = require('./olympics');
 
+const csvFilePath = '../csvData/athlete_events.csv';
+
+// function csvToJson(csvFilePath) {
+//     let jsonData = csv().fromFile(csvFilePath);
+// }
+// function()
+
+const aE = require("../jsonData/atheleteEvents.json"); // aE = Athlete Events
 
 // Function to Write data to json file
 writeFilePromise = (file, data) => {

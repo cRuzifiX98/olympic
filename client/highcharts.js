@@ -5,17 +5,11 @@ fetch("../jsonData/perCityStat.json")
   .then(data => chartForGamesPerCity(data));
 
 function chartForGamesPerCity(result) {
-  let data = Object.entries(result);
-  let seriesData = data.reduce((acc, currVal, index) => {
-    let cityArray = [];
-    cityArray.push(currVal[0]);
-    cityArray.push(currVal[1].count);
-    acc.push(cityArray);
+  let cityData = Object.entries(result).reduce((acc, cur) => {
+    acc[cur[0]] = cur[1]['count'];
     return acc;
-  }, []);
-
-  let cityData = seriesData;
-
+  }, {});
+  
   Highcharts.chart("cityStats", {
     chart: {
       type: "column"
@@ -24,6 +18,7 @@ function chartForGamesPerCity(result) {
       text: "Number of times Olympics hosted per City"
     },
     xAxis: {
+      categories: Object.keys(cityData),
       type: "category",
       labels: {
         rotation: -45,
@@ -45,7 +40,7 @@ function chartForGamesPerCity(result) {
     series: [
       {
         name: "Population",
-        data: cityData,
+        data: Object.values(cityData),
         dataLabels: {
           enabled: true,
           rotation: -90,
@@ -159,26 +154,22 @@ function chartForTopTenCountryMedals(result) {
 
 fetch("../jsonData/genderByDecade.json")
   .then(response => response.json())
-  .then(data => genderByDecade(data));
+  .then(data => chartForGenderByDecade(data));
 
-function genderByDecade(result) {
-  let resultArray = Object.entries(result);
-  let seriesData = resultArray.reduce(
-    (acc, currVal, index) => {
-      acc.Decade.push(currVal[0]);
-      acc.M.push(currVal[1].M);
-      acc.F.push(currVal[1].F);
-      return acc;
-    },
-    {
-      Decade: [],
-      M: [],
-      F: []
-    }
-  );
-
-  let data = seriesData;
-
+function chartForGenderByDecade(result) {
+  
+  let category = result.reduce((acc, cVal) => {
+    acc[cVal[0]] = cVal[1];
+    return acc;
+  }, []);
+  let maleData = Object.entries(category).map((currVal) => {
+    return currVal[1].M;
+  });
+  let femaleData = Object.entries(category).map((currVal) => {
+    return currVal[1].F;
+  });
+  console.log(maleData);
+  
   Highcharts.chart("genderByDecade", {
     chart: {
       type: "column"
@@ -187,7 +178,7 @@ function genderByDecade(result) {
       text: "Male/Female participation in Olympics per Decade"
     },
     xAxis: {
-      categories: data.Decade,
+      categories: Object.keys(category),
       crosshair: true
     },
     yAxis: {
@@ -205,11 +196,11 @@ function genderByDecade(result) {
     series: [
       {
         name: "Male",
-        data: data.M
+        data: maleData
       },
       {
         name: "Female",
-        data: data.F
+        data: femaleData
       }
     ]
   });
@@ -288,3 +279,4 @@ function chartForAverageAge(result) {
 }
 
 // Find out all medal winners from India per season - Table
+

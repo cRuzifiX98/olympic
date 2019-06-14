@@ -6,33 +6,26 @@ const result = require('./olympics');
 
 // Problem 1
 // console.log(result.perCityStat(aE));
-// console.log(result.getPerCityStatData(aE));
 
 //--------------------------------------------------------
 
 //Problem 2
 // console.log(result.countryMedals(aE, nR, 2000, 10));
-// console.log(result.getCountryMedalsData(aE, nR, 2000, 10));
-
 
 //--------------------------------------------------------
 
 //Problem 3
 // console.log(result.genderByDecade(aE));
-// console.log(result.getGenderParticipationData(aE));
-
 
 //--------------------------------------------------------------
 
 //Problem 4
 // console.log(result.averageAge(aE, "Boxing Men's Heavyweight"));
-console.log(result.getAverageAgeData(aE, "Boxing Men's Heavyweight"));
-
 
 //--------------------------------------------------------------
 
 // Problem 5
-// console.log(result.medalWinnersIndia(aE));
+console.log(result.medalWinnersIndia(aE, 'IND'));
 
 
 
